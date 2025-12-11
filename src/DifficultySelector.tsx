@@ -8,8 +8,8 @@ interface DifficultySelectorProps {
 export function DifficultySelector({ onSelect }: DifficultySelectorProps) {
   return (
     <div className="difficulty-selector">
-      <h1>MathMaze</h1>
-      <p className="subtitle">Solve problems to navigate the maze!</p>
+      <h1>Math Maze</h1>
+      {/* <p className="subtitle">Solve problems to navigate the maze!</p> */}
 
       <div className="difficulty-buttons">
         <button

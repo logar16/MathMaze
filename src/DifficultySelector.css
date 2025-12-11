@@ -1,23 +1,23 @@
 .difficulty-selector {
   text-align: center;
-  padding: 2rem;
+  padding: 1rem;
 }
 
 .difficulty-selector h1 {
-  font-size: 4rem;
+  font-size: 2.5rem;
   margin-bottom: 0.5rem;
   color: #646cff;
 }
 
 .subtitle {
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: #888;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 
 .difficulty-buttons {
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
   justify-content: center;
   flex-wrap: wrap;
   max-width: 900px;
@@ -27,12 +27,14 @@
 .difficulty-btn {
   background-color: #1a1a1a;
   border: 3px solid #444;
-  padding: 2rem;
+  padding: 1.5rem;
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s;
-  min-width: 250px;
+  min-width: 200px;
   text-align: center;
+  flex: 1;
+  max-width: 280px;
 }
 
 .difficulty-btn:hover {
@@ -53,7 +55,7 @@
 }
 
 .btn-title {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 0.5rem;
 }
@@ -71,13 +73,50 @@
 }
 
 .btn-subtitle {
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: #888;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .btn-description {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #aaa;
   line-height: 1.4;
+}
+
+@media (min-width: 768px) {
+  .difficulty-selector {
+    padding: 2rem;
+  }
+
+  .difficulty-selector h1 {
+    font-size: 4rem;
+  }
+
+  .subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 3rem;
+  }
+
+  .difficulty-buttons {
+    gap: 2rem;
+  }
+
+  .difficulty-btn {
+    padding: 2rem;
+    min-width: 250px;
+  }
+
+  .btn-title {
+    font-size: 2rem;
+  }
+
+  .btn-subtitle {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .btn-description {
+    font-size: 0.9rem;
+  }
 }

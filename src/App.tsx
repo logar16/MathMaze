@@ -209,20 +209,21 @@ function App() {
 
   return (
     <div className="App">
-      {gameState.gameStatus === 'menu' && (
+      {gameState.gameStatus === "menu" && (
         <DifficultySelector onSelect={handleDifficultySelect} />
       )}
 
-      {gameState.gameStatus !== 'menu' && (
+      {gameState.gameStatus !== "menu" && (
         <div className="game-container">
           <div className="game-header">
-            <div className="stat">Level: {gameState.level}</div>
-            <div className="stat">Score: {gameState.score}</div>
-            <div className="stat">Moves: {gameState.moveCount}</div>
-            <button className="mode-toggle-btn" onClick={toggleInputMode}>
-              {gameState.inputMode === 'multiple-choice' ? '🎯 Multiple Choice' : '⌨️ Keyboard'}
+            <div className="stats-row">
+              <div className="stat">Lvl: {gameState.level}</div>
+              <div className="stat">Pts: {gameState.score}</div>
+              <div className="stat">Moves: {gameState.moveCount}</div>
+            </div>
+            <button className="reset-btn" onClick={handleReset}>
+              Menu
             </button>
-            <button className="reset-btn" onClick={handleReset}>Main Menu</button>
           </div>
 
           <MazeDisplay
@@ -231,22 +232,67 @@ function App() {
             exitPos={gameState.exitPos}
           />
 
+          <button className="mode-toggle-btn" onClick={toggleInputMode}>
+            {gameState.inputMode === "multiple-choice" ? "🎯 MC" : "⌨️ KB"}
+          </button>
+
+          {gameState.gameStatus === "playing" && (
+            <div className="controls">
+              <div className="controls-grid">
+                <div className="control-row">
+                  <button
+                    className="control-btn"
+                    onClick={() => handleMove("up")}
+                  >
+                    ↑
+                  </button>
+                </div>
+                <div className="control-row">
+                  <button
+                    className="control-btn"
+                    onClick={() => handleMove("left")}
+                  >
+                    ←
+                  </button>
+                  <button
+                    className="control-btn"
+                    onClick={() => handleMove("down")}
+                  >
+                    ↓
+                  </button>
+                  <button
+                    className="control-btn"
+                    onClick={() => handleMove("right")}
+                  >
+                    →
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
           {gameState.feedback && (
-            <div className={`feedback-toast ${gameState.feedback.isCorrect ? 'correct' : 'wrong'}`}>
-              <div className="feedback-message">{gameState.feedback.message}</div>
+            <div
+              className={`feedback-toast ${
+                gameState.feedback.isCorrect ? "correct" : "wrong"
+              }`}
+            >
+              <div className="feedback-message">
+                {gameState.feedback.message}
+              </div>
               {gameState.feedback.equation && (
-                <div className="feedback-equation">{gameState.feedback.equation}</div>
+                <div className="feedback-equation">
+                  {gameState.feedback.equation}
+                </div>
               )}
             </div>
           )}
 
-          {gameState.gameStatus === 'playing' && (
-            <div className="instructions">
-              Use arrow keys or WASD to move character
-            </div>
+          {gameState.gameStatus === "playing" && (
+            <div className="instructions">Use arrow keys or WASD to move</div>
           )}
 
-          {gameState.gameStatus === 'answering' && gameState.currentProblem && (
+          {gameState.gameStatus === "answering" && gameState.currentProblem && (
             <MathProblemDisplay
               problem={gameState.currentProblem}
               onAnswer={handleAnswer}
@@ -254,7 +300,7 @@ function App() {
             />
           )}
 
-          {gameState.gameStatus === 'won' && (
+          {gameState.gameStatus === "won" && (
             <div className="win-message">
               <h2>🎉 Level Complete! 🎉</h2>
               <p>Moves: {gameState.moveCount}</p>
@@ -269,7 +315,7 @@ function App() {
         </div>
       )}
     </div>
-  )
+  );
 }
 
 export default App

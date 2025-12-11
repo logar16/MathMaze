@@ -20,104 +20,155 @@ export function generateMaze(config: MazeConfig): {
   const start: Position = { x: 0, y: 0 };
   const exit: Position = { x: width - 1, y: height - 1 };
 
-  // Create paths using recursive backtracking with moderate branching
-  const visited = new Set<string>();
-  
-  // Function to carve passages - more selective branching
-  function carve(x: number, y: number, depth: number = 0): void {
-    const key = `${x},${y}`;
-    if (visited.has(key)) return;
-    
-    visited.add(key);
-    maze[y][x] = 'empty';
+  // Carve 2-3 distinct winding paths from start to exit with different starting directions
+  const numMainPaths = 2 + Math.floor(Math.random() * 2); // 2 or 3 paths
 
-    // Get all possible directions in random order
-    const directions = [
-      { x: x + 1, y: y },
-      { x: x - 1, y: y },
-      { x: x, y: y + 1 },
-      { x: x, y: y - 1 },
-    ].sort(() => Math.random() - 0.5);
+  // Force each path to start in a different direction
+  const startingDirections = ['right', 'down', 'right-down'];
 
-    for (const next of directions) {
-      if (next.x >= 0 && next.x < width && next.y >= 0 && next.y < height) {
-        const nextKey = `${next.x},${next.y}`;
-        if (!visited.has(nextKey)) {
-          // More controlled branching - 40% chance, less likely as depth increases
-          const branchChance = depth < 3 ? 0.6 : 0.4;
-          if (Math.random() < branchChance) {
-            carve(next.x, next.y, depth + 1);
-          }
-        }
-      }
-    }
+  for (let pathIndex = 0; pathIndex < numMainPaths; pathIndex++) {
+    const initialDirection = startingDirections[pathIndex % startingDirections.length];
+    carvePath(maze, start, exit, width, height, pathIndex === 0, initialDirection);
   }
-
-  // Start carving from start position
-  carve(start.x, start.y);
-
-  // Make sure exit is reachable, carve if needed
-  if (maze[exit.y][exit.x] === 'wall') {
-    carve(exit.x, exit.y);
-  }
-
-  // Create fewer additional paths - reduce from 15% to 5%
-  const numExtraPaths = Math.floor((width * height) * 0.05);
-  for (let i = 0; i < numExtraPaths; i++) {
-    const x = Math.floor(Math.random() * width);
-    const y = Math.floor(Math.random() * height);
-    if (maze[y][x] === 'empty') {
-      carve(x, y);
-    }
-  }
-
-  // Ensure connectivity by checking and fixing
-  if (!isReachable(maze, start, exit)) {
-    // Create a direct connection using BFS to find and carve path
-    connectStartToExit(maze, start, exit);
-  }
-
-  // Don't add more walls - we want a good balance
-  // The carved passages already provide good structure
 
   maze[exit.y][exit.x] = 'exit';
 
   return { maze, start, exit };
 }
 
-// Connect start to exit if they're not connected
-function connectStartToExit(maze: CellType[][], start: Position, exit: Position): void {
-  const height = maze.length;
-  const width = maze[0].length;
-  
-  // Simple carve toward exit
+// Carve a winding path from start toward exit
+function carvePath(
+  maze: CellType[][],
+  start: Position,
+  exit: Position,
+  width: number,
+  height: number,
+  isMainPath: boolean,
+  initialDirection: string
+): void {
   let current = { ...start };
   maze[current.y][current.x] = 'empty';
-  
-  while (current.x !== exit.x || current.y !== exit.y) {
+
+  const visited = new Set<string>();
+  const maxSteps = width * height; // Prevent infinite loops
+  let steps = 0;
+
+  // Force initial direction for first 3-4 steps to create distinct paths
+  const forcedSteps = 3 + Math.floor(Math.random() * 2);
+  for (let i = 0; i < forcedSteps && steps < maxSteps; i++) {
+    steps++;
+    const key = `${current.x},${current.y}`;
+    visited.add(key);
     maze[current.y][current.x] = 'empty';
-    
-    // Move toward exit
-    if (current.x < exit.x && Math.random() > 0.3) {
+
+    let moved = false;
+
+    if (initialDirection === 'right' && current.x < width - 1) {
       current.x++;
-    } else if (current.x > exit.x && Math.random() > 0.3) {
-      current.x--;
-    } else if (current.y < exit.y && Math.random() > 0.3) {
+      moved = true;
+    } else if (initialDirection === 'down' && current.y < height - 1) {
       current.y++;
-    } else if (current.y > exit.y && Math.random() > 0.3) {
-      current.y--;
+      moved = true;
+    } else if (initialDirection === 'right-down') {
+      // Alternate between right and down
+      if (i % 2 === 0 && current.x < width - 1) {
+        current.x++;
+        moved = true;
+      } else if (current.y < height - 1) {
+        current.y++;
+        moved = true;
+      } else if (current.x < width - 1) {
+        current.x++;
+        moved = true;
+      }
+    }
+
+    if (!moved) break; // Hit a boundary, stop forcing direction
+    maze[current.y][current.x] = 'empty';
+  }
+
+  while ((current.x !== exit.x || current.y !== exit.y) && steps < maxSteps) {
+    steps++;
+    const key = `${current.x},${current.y}`;
+    visited.add(key);
+    maze[current.y][current.x] = 'empty';
+
+    // Calculate direction bias toward exit
+    const toExitX = exit.x - current.x;
+    const toExitY = exit.y - current.y;
+
+    // Build weighted direction choices
+    const directions: { pos: Position; weight: number }[] = [];
+
+    // Forward directions (toward exit) - higher weight
+    if (toExitX > 0 && current.x < width - 1) {
+      directions.push({ pos: { x: current.x + 1, y: current.y }, weight: isMainPath ? 5 : 3 });
+    }
+    if (toExitX < 0 && current.x > 0) {
+      directions.push({ pos: { x: current.x - 1, y: current.y }, weight: isMainPath ? 5 : 3 });
+    }
+    if (toExitY > 0 && current.y < height - 1) {
+      directions.push({ pos: { x: current.x, y: current.y + 1 }, weight: isMainPath ? 5 : 3 });
+    }
+    if (toExitY < 0 && current.y > 0) {
+      directions.push({ pos: { x: current.x, y: current.y - 1 }, weight: isMainPath ? 5 : 3 });
+    }
+
+    // Perpendicular directions for zigzag - medium weight
+    if (Math.abs(toExitX) > Math.abs(toExitY)) {
+      // Moving horizontally, allow vertical zigzags
+      if (current.y > 0) directions.push({ pos: { x: current.x, y: current.y - 1 }, weight: 2 });
+      if (current.y < height - 1) directions.push({ pos: { x: current.x, y: current.y + 1 }, weight: 2 });
     } else {
-      // Random walk
-      const moves = [];
-      if (current.x > 0) moves.push({ x: current.x - 1, y: current.y });
-      if (current.x < width - 1) moves.push({ x: current.x + 1, y: current.y });
-      if (current.y > 0) moves.push({ x: current.x, y: current.y - 1 });
-      if (current.y < height - 1) moves.push({ x: current.x, y: current.y + 1 });
-      if (moves.length > 0) {
-        current = moves[Math.floor(Math.random() * moves.length)];
+      // Moving vertically, allow horizontal zigzags
+      if (current.x > 0) directions.push({ pos: { x: current.x - 1, y: current.y }, weight: 2 });
+      if (current.x < width - 1) directions.push({ pos: { x: current.x + 1, y: current.y }, weight: 2 });
+    }
+
+    // Occasional backward movement for more complex paths - low weight
+    if (Math.random() < 0.2) {
+      if (toExitX > 0 && current.x > 0) {
+        directions.push({ pos: { x: current.x - 1, y: current.y }, weight: 1 });
+      }
+      if (toExitX < 0 && current.x < width - 1) {
+        directions.push({ pos: { x: current.x + 1, y: current.y }, weight: 1 });
+      }
+      if (toExitY > 0 && current.y > 0) {
+        directions.push({ pos: { x: current.x, y: current.y - 1 }, weight: 1 });
+      }
+      if (toExitY < 0 && current.y < height - 1) {
+        directions.push({ pos: { x: current.x, y: current.y + 1 }, weight: 1 });
+      }
+    }
+
+    // Filter out visited positions to keep paths more distinct
+    const validDirections = directions.filter(d => {
+      const dKey = `${d.pos.x},${d.pos.y}`;
+      // First path can visit anywhere, subsequent paths avoid previous paths more
+      return !visited.has(dKey) || (isMainPath && Math.random() < 0.2);
+    });
+
+    if (validDirections.length === 0) {
+      // Dead end - try any unvisited direction
+      const anyDirections = directions.filter(d => !visited.has(`${d.pos.x},${d.pos.y}`));
+      if (anyDirections.length === 0) break; // Truly stuck
+      current = anyDirections[Math.floor(Math.random() * anyDirections.length)].pos;
+    } else {
+      // Weighted random selection
+      const totalWeight = validDirections.reduce((sum, d) => sum + d.weight, 0);
+      let random = Math.random() * totalWeight;
+
+      for (const dir of validDirections) {
+        random -= dir.weight;
+        if (random <= 0) {
+          current = dir.pos;
+          break;
+        }
       }
     }
   }
+
+  // Make sure we reached the exit
   maze[exit.y][exit.x] = 'empty';
 }
 

@@ -6,11 +6,50 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
+/* Mobile overlay mode */
+@media (max-height: 700px), (max-width: 600px) {
+  .math-problem {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    margin: 0;
+    max-width: 90vw;
+    max-height: 80vh;
+    overflow-y: auto;
+    border: 3px solid #646cff;
+  }
+
+  /* Add backdrop */
+  .math-problem::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: -1;
+  }
+}
+
 .problem-question {
   font-size: 2.5rem;
   color: #eaff64;
   margin-bottom: 1.5rem;
   text-align: center;
+}
+
+@media (max-width: 600px) {
+  .problem-question {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .math-problem {
+    padding: 1.5rem;
+  }
 }
 
 .answer-options {
