@@ -172,44 +172,6 @@ function carvePath(
   maze[exit.y][exit.x] = 'empty';
 }
 
-// Simple BFS to check if exit is reachable from start
-function isReachable(maze: CellType[][], start: Position, exit: Position): boolean {
-  const height = maze.length;
-  const width = maze[0].length;
-  const visited = new Set<string>();
-  const queue: Position[] = [start];
-
-  while (queue.length > 0) {
-    const current = queue.shift()!;
-    const key = `${current.x},${current.y}`;
-
-    if (current.x === exit.x && current.y === exit.y) {
-      return true;
-    }
-
-    if (visited.has(key)) continue;
-    visited.add(key);
-
-    // Check all four directions
-    const directions = [
-      { x: current.x + 1, y: current.y },
-      { x: current.x - 1, y: current.y },
-      { x: current.x, y: current.y + 1 },
-      { x: current.x, y: current.y - 1 },
-    ];
-
-    for (const next of directions) {
-      if (next.x >= 0 && next.x < width && next.y >= 0 && next.y < height) {
-        if (maze[next.y][next.x] !== 'wall' && !visited.has(`${next.x},${next.y}`)) {
-          queue.push(next);
-        }
-      }
-    }
-  }
-
-  return false;
-}
-
 export function getMazeConfigForLevel(level: number): MazeConfig {
   // Start with 6x6, gradually increase size for more path variety
   const baseSize = 6;
