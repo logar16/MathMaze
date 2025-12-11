@@ -1,0 +1,159 @@
+.App {
+  text-align: center;
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+.game-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  position: relative;
+}
+
+.game-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.stat {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #646cff;
+}
+
+.instructions {
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  color: #888;
+  font-style: italic;
+}
+
+.win-message {
+  margin-top: 2rem;
+  padding: 2rem;
+  background-color: #1a1a1a;
+  border-radius: 12px;
+  border: 3px solid #4CAF50;
+}
+
+.win-message h2 {
+  color: #4CAF50;
+  margin-bottom: 1rem;
+}
+
+.win-message p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.next-level-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin: 0.5rem;
+  font-weight: bold;
+}
+
+.next-level-btn:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+}
+
+.reset-btn {
+  background-color: #666;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin: 0.5rem;
+}
+
+.reset-btn:hover {
+  background-color: #777;
+}
+
+.mode-toggle-btn {
+  background-color: #646cff;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin: 0.5rem;
+}
+
+.mode-toggle-btn:hover {
+  background-color: #535bf2;
+}
+
+.feedback-toast {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 1.5rem 2.5rem;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  z-index: 1000;
+  animation: popIn 0.3s ease-out;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  min-width: 300px;
+}
+
+.feedback-toast.correct {
+  background-color: #4CAF50;
+  color: white;
+  border: 3px solid #45a049;
+}
+
+.feedback-toast.wrong {
+  background-color: #EF5350;
+  color: white;
+  border: 3px solid #e53935;
+}
+
+.feedback-message {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.feedback-equation {
+  margin-top: 0.75rem;
+  font-size: 1.8rem;
+  font-weight: bold;
+  padding: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+}
+
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+button {
+  font-family: inherit;
+}

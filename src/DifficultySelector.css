@@ -1,0 +1,83 @@
+.difficulty-selector {
+  text-align: center;
+  padding: 2rem;
+}
+
+.difficulty-selector h1 {
+  font-size: 4rem;
+  margin-bottom: 0.5rem;
+  color: #646cff;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: #888;
+  margin-bottom: 3rem;
+}
+
+.difficulty-buttons {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.difficulty-btn {
+  background-color: #1a1a1a;
+  border: 3px solid #444;
+  padding: 2rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  min-width: 250px;
+  text-align: center;
+}
+
+.difficulty-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+.difficulty-btn.easy:hover {
+  border-color: #4CAF50;
+}
+
+.difficulty-btn.medium:hover {
+  border-color: #FFA726;
+}
+
+.difficulty-btn.hard:hover {
+  border-color: #EF5350;
+}
+
+.btn-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.difficulty-btn.easy .btn-title {
+  color: #4CAF50;
+}
+
+.difficulty-btn.medium .btn-title {
+  color: #FFA726;
+}
+
+.difficulty-btn.hard .btn-title {
+  color: #EF5350;
+}
+
+.btn-subtitle {
+  font-size: 1rem;
+  color: #888;
+  margin-bottom: 1rem;
+}
+
+.btn-description {
+  font-size: 0.9rem;
+  color: #aaa;
+  line-height: 1.4;
+}
