@@ -1,7 +1,173 @@
 .difficulty-selector {
   text-align: center;
-  padding: 1rem;
+  padding: 2rem 1rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* ─── Logo ─────────────────────────────────────────── */
+  .menu-logo {
+    display: flex;
+    gap: 0.3em;
+    justify-content: center;
+    align-items: baseline;
+    margin-bottom: 0.4rem;
+  }
+  
+  .menu-logo-maze {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 8vw, 5.5rem);
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  
+  .menu-logo-math {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 8vw, 5.5rem);
+    font-weight: 300;
+    color: var(--text-muted);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  
+  .subtitle {
+    font-size: 0.95rem;
+    color: var(--text-dim);
+    margin-bottom: 2.5rem;
+    letter-spacing: 0.03em;
+  }
+  
+  /* ─── Grid ──────────────────────────────────────────── */
+  .difficulty-buttons {
+    display: flex;
+    gap: 0.85rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  
+  .difficulty-btn {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    padding: 1.5rem 1.25rem;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: transform 0.22s ease, border-color 0.22s, box-shadow 0.22s;
+    min-width: 175px;
+    text-align: center;
+    flex: 1;
+    max-width: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  
+  .difficulty-btn:hover {
+    transform: translateY(-6px);
+  }
+  
+  .btn-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+    border: 1px solid currentColor;
+    opacity: 0.85;
+    transition: opacity 0.2s;
+  }
+  
+  .difficulty-btn:hover .btn-icon {
+    opacity: 1;
+  }
+  
+  /* Per-difficulty color theming */
+  .difficulty-btn.easy {
+    --diff-color: #22c55e;
+  }
+  
+  .difficulty-btn.medium {
+    --diff-color: #f59e0b;
+  }
+  
+  .difficulty-btn.hard {
+    --diff-color: #ef4444;
+  }
+  
+  .difficulty-btn.master {
+    --diff-color: var(--purple);
+  }
+  
+  .difficulty-btn .btn-icon {
+    color: var(--diff-color);
+  }
+  
+  .difficulty-btn:hover {
+    border-color: var(--diff-color);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4), 0 0 18px color-mix(in srgb, var(--diff-color) 25%, transparent);
+  }
+  
+  .btn-title {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-weight: 600;
+    color: var(--diff-color);
+    letter-spacing: 0.01em;
+    line-height: 1;
+  }
+  
+  .btn-subtitle {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-dim);
+  }
+  
+  .btn-description {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+    margin-top: 0.15rem;
+  }
+  
+  @media (min-width: 768px) {
+    .difficulty-buttons {
+      gap: 1.25rem;
+    }
+  
+    .difficulty-btn {
+      padding: 2rem 1.5rem;
+      min-width: 200px;
+    }
+  
+    .btn-icon {
+      width: 50px;
+      height: 50px;
+    }
+  
+    .btn-title {
+      font-size: 1.7rem;
+    }
+  
+    .btn-subtitle {
+      font-size: 0.8rem;
+    }
+  
+    .btn-description {
+      font-size: 0.85rem;
+    }
 }
+
 
 .difficulty-selector h1 {
   font-size: 2.5rem;
@@ -54,6 +220,9 @@
   border-color: #EF5350;
 }
 
+.difficulty-btn.master:hover {
+  border-color: #AB47BC;
+}
 .btn-title {
   font-size: 1.5rem;
   font-weight: bold;
@@ -72,6 +241,9 @@
   color: #EF5350;
 }
 
+.difficulty-btn.master .btn-title {
+  color: #AB47BC;
+}
 .btn-subtitle {
   font-size: 0.9rem;
   color: #888;

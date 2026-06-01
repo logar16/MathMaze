@@ -80,6 +80,31 @@ export function generateMathProblem(difficulty: Difficulty): MathProblem {
         question = `${num1} ÷ ${num2}`;
       }
       break;
+
+    case 'master': // Master: all operations, large numbers, heavy division focus
+      const masterOp = Math.random();
+      if (masterOp < 0.15) {
+        num1 = getRandomInt(100, 500);
+        num2 = getRandomInt(50, 200);
+        answer = num1 + num2;
+        question = `${num1} + ${num2}`;
+      } else if (masterOp < 0.3) {
+        num1 = getRandomInt(200, 500);
+        num2 = getRandomInt(50, num1);
+        answer = num1 - num2;
+        question = `${num1} - ${num2}`;
+      } else if (masterOp < 0.5) {
+        num1 = getRandomInt(6, 12);
+        num2 = getRandomInt(6, 12);
+        answer = num1 * num2;
+        question = `${num1} × ${num2}`;
+      } else {
+        num2 = getRandomInt(2, 12);
+        answer = getRandomInt(2, 12);
+        num1 = num2 * answer;
+        question = `${num1} ÷ ${num2}`;
+      }
+      break;
   }
 
   // Generate 3 wrong answers

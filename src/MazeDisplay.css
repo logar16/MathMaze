@@ -22,15 +22,15 @@
 }
 
 .maze-cell.wall {
-  background-color: #182bd8;
+  background-color: var(--maze-wall, #182bd8);
 }
 
 .maze-cell.empty {
-  background-color: #dd00ff;
+  background-color: var(--maze-empty, #dd00ff);
 }
 
 .maze-cell.exit {
-  background-color: #5d0ca0;
+  background-color: var(--maze-exit, #5d0ca0);
 }
 
 .maze-cell.player {

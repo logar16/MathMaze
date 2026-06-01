@@ -1,43 +1,70 @@
-import { Difficulty } from './types';
-import './DifficultySelector.css';
+import { Leaf, Zap, Flame, Crown } from "lucide-react";
+import { Difficulty } from "./types";
+import "./DifficultySelector.css";
 
 interface DifficultySelectorProps {
   onSelect: (difficulty: Difficulty) => void;
 }
 
+const DIFFICULTY_META = {
+  easy: {
+    icon: Leaf,
+    label: "Easy",
+    grade: "1st Grade",
+    desc: "Addition & subtraction up to 20",
+  },
+  medium: {
+    icon: Zap,
+    label: "Medium",
+    grade: "2nd Grade",
+    desc: "Larger numbers & simple multiplication",
+  },
+  hard: {
+    icon: Flame,
+    label: "Hard",
+    grade: "3rd Grade",
+    desc: "All operations including division",
+  },
+  master: {
+    icon: Crown,
+    label: "Master",
+    grade: "Expert",
+    desc: "Large numbers with heavy division focus",
+  },
+} as const;
+
 export function DifficultySelector({ onSelect }: DifficultySelectorProps) {
   return (
     <div className="difficulty-selector">
-      <h1>Math Maze</h1>
-      {/* <p className="subtitle">Solve problems to navigate the maze!</p> */}
+      <div className="menu-logo">
+        <span className="menu-logo-maze">MATH</span>
+        <span className="menu-logo-math">MAZE</span>
+      </div>
+      <p className="subtitle">Solve problems to navigate the maze</p>
 
       <div className="difficulty-buttons">
-        <button
-          className="difficulty-btn easy"
-          onClick={() => onSelect('easy')}
-        >
-          <div className="btn-title">Easy</div>
-          <div className="btn-subtitle">1st Grade</div>
-          <div className="btn-description">Addition & subtraction up to 20</div>
-        </button>
-
-        <button
-          className="difficulty-btn medium"
-          onClick={() => onSelect('medium')}
-        >
-          <div className="btn-title">Medium</div>
-          <div className="btn-subtitle">2nd Grade</div>
-          <div className="btn-description">Larger numbers & simple multiplication</div>
-        </button>
-
-        <button
-          className="difficulty-btn hard"
-          onClick={() => onSelect('hard')}
-        >
-          <div className="btn-title">Hard</div>
-          <div className="btn-subtitle">3rd Grade</div>
-          <div className="btn-description">All operations including division</div>
-        </button>
+        {(
+          Object.entries(DIFFICULTY_META) as [
+            Difficulty,
+            (typeof DIFFICULTY_META)[keyof typeof DIFFICULTY_META],
+          ][]
+        ).map(([key, meta]) => {
+          const Icon = meta.icon;
+          return (
+            <button
+              key={key}
+              className={`difficulty-btn ${key}`}
+              onClick={() => onSelect(key)}
+            >
+              <div className="btn-icon">
+                <Icon size={22} strokeWidth={2} />
+              </div>
+              <div className="btn-title">{meta.label}</div>
+              <div className="btn-subtitle">{meta.grade}</div>
+              <div className="btn-description">{meta.desc}</div>
+            </button>
+          );
+        })}
       </div>
     </div>
   );

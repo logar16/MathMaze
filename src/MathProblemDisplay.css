@@ -1,10 +1,147 @@
 .math-problem {
-  background-color: #1a1a1a;
+  background: var(--bg-surface);
   padding: 2rem;
-  border-radius: 12px;
-  margin: 2rem 0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border-radius: var(--radius-lg);
+    margin: 1.5rem 0;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  }
+  
+  /* Mobile overlay mode */
+  @media (max-height: 700px),
+  (max-width: 600px) {
+    .math-problem {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1000;
+      margin: 0;
+      max-width: 90vw;
+      max-height: 80vh;
+      overflow-y: auto;
+      border-color: var(--primary);
+      box-shadow: 0 0 32px var(--primary-glow), 0 8px 48px rgba(0, 0, 0, 0.6);
+    }
+  
+    .math-problem::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(8, 12, 24, 0.75);
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+      z-index: -1;
+    }
+  }
+  
+  .problem-question {
+    font-family: var(--font-mono);
+    font-size: 2.5rem;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    text-align: center;
+    letter-spacing: -0.02em;
+  }
+  
+  @media (max-width: 600px) {
+    .problem-question {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+  
+    .math-problem {
+      padding: 1.5rem;
+    }
+  }
+  
+  .answer-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .answer-button {
+    background: var(--bg-elevated);
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 1.25rem 1rem;
+    font-family: var(--font-mono);
+    font-size: 1.4rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, box-shadow 0.15s, transform 0.1s;
+    font-weight: 700;
+  }
+  
+  .answer-button:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    box-shadow: 0 0 14px var(--primary-glow);
+    transform: translateY(-2px);
+  }
+  
+  .answer-button:active {
+    transform: translateY(0);
+  }
+  
+  .keyboard-input {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    align-items: center;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .answer-input {
+    flex: 1;
+    background: var(--bg-elevated);
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 0.85rem 1rem;
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    border-radius: var(--radius);
+    text-align: center;
+    font-weight: 700;
+  }
+  
+  .answer-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 10px var(--primary-glow);
+  }
+  
+  .submit-button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.85rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: var(--font-body);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background 0.15s, box-shadow 0.15s, transform 0.1s;
+  }
+  
+  .submit-button:hover:not(:disabled) {
+    background: var(--primary-hover);
+    box-shadow: 0 0 14px var(--primary-glow);
+    transform: translateY(-2px);
+  }
+  
+  .submit-button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
 }
+
 
 /* Mobile overlay mode */
 @media (max-height: 700px), (max-width: 600px) {

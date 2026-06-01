@@ -1,4 +1,4 @@
-export type Difficulty = 'easy' | 'medium' | 'hard';
+export type Difficulty = 'easy' | 'medium' | 'hard' | 'master';
 export type InputMode = 'multiple-choice' | 'keyboard';
 
 export interface Position {
